@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "rg" {
   name     = "learnk8sResourceGroup"
-  location = "eastus"
+  location = "northeurope"
 }
 
 resource "azurerm_kubernetes_cluster" "cluster" {
@@ -14,8 +14,13 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     node_count = "2"
     vm_size    = "standard_d2_v2"
   }
-
   identity {
     type = "SystemAssigned"
   }
+  addon_profile {
+    http_application_routing {
+      enabled = true
+    }
+  }
+  
 }
