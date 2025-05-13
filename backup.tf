@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "snap" {
 */
 
 resource "azurerm_data_protection_backup_vault" "example" {
-  name                = "example"
+  name                = var.backup_vault_name
   resource_group_name = data.azurerm_resource_group.import.name
   location            = "eastus"
   datastore_type      = "VaultStore"

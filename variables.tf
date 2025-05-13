@@ -16,6 +16,12 @@ variable "cluster_name" {
   description = "RG Name"
 }
 
+variable "backup_vault_name" {
+  type        = string
+  default     = "aks-backupvault"
+  description = "RG Name"
+}
+
 variable "node_count" {
   type        = number
   description = "The initial quantity of nodes for the node pool."

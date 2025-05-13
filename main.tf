@@ -17,7 +17,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   location            = azurerm_resource_group.rg.location
   name                = var.cluster_name
   resource_group_name = var.resource_group_name
-  dns_prefix          = random_pet.azurerm_kubernetes_cluster_dns_prefix.id
+  #dns_prefix          = random_pet.azurerm_kubernetes_cluster_dns_prefix.id
+  dns_prefix          = "dns"
 
   identity {
     type = "SystemAssigned"
@@ -27,6 +28,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     name       = "agentpool"
     vm_size    = "Standard_D2_v2"
     node_count = var.node_count
+    host_encryption_enabled = true
   }
   linux_profile {
     admin_username = var.username
