@@ -2,7 +2,7 @@ data "azurerm_client_config" "current" {}
 
 data "azurerm_kubernetes_cluster" "k8s" {
     name = "cluster-discrete-hyena"
-    location = "EastUS"
+    #location = "EastUS"
     resource_group_name = "rg-rational-sparrow"
 }
 
