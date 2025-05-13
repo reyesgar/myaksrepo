@@ -74,7 +74,7 @@ resource "azurerm_storage_container" "example" {
   name                  = "backupcontainer"
   storage_account_name  = "example123dsedf"
   container_access_type = "private"
-  depends_on = [ azurerm_resource_group.rg ]
+  depends_on = [ azurerm_resource_group.rg, azurerm_storage_account.example ]
 }
 
 resource "azurerm_kubernetes_cluster_extension" "example" {
