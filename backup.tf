@@ -168,7 +168,7 @@ resource "azurerm_data_protection_backup_instance_kubernetes_cluster" "example" 
   location                     = "EastUS"
   vault_id                     = azurerm_data_protection_backup_vault.example.id
   kubernetes_cluster_id        = data.azurerm_kubernetes_cluster.k8s.id
-  snapshot_resource_group_name = azurerm_resource_group.snap.name
+  snapshot_resource_group_name = data.azurerm_resource_group.import.name
   backup_policy_id             = azurerm_data_protection_backup_policy_kubernetes_cluster.example.id
 
   backup_datasource_parameters {
