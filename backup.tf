@@ -122,7 +122,7 @@ resource "azurerm_role_assignment" "test_vault_data_contributor_on_storage" {
 resource "azurerm_role_assignment" "test_cluster_msi_contributor_on_snap_rg" {
   scope                = azurerm_resource_group.snap.id
   role_definition_name = "Contributor"
-  principal_id         = azurerm_kubernetes_cluster.example.identity[0].principal_id
+  principal_id         = data.azurerm_kubernetes_cluster.k8s.identity[0].principal_id
 }
 
 resource "azurerm_data_protection_backup_policy_kubernetes_cluster" "example" {
