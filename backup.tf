@@ -4,10 +4,12 @@ data "azurerm_kubernetes_cluster" "k8s" {
     name = var.cluster_name
     #location = "EastUS"
     resource_group_name = var.resource_group_name
+    depends_on = [ azurerm_resource_group.rg ]
 }
 
 data "azurerm_resource_group" "import"{
     name = var.resource_group_name
+    depends_on = [ azurerm_resource_group.rg ]
 }
 
 /*
