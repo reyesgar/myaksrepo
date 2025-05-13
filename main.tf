@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     name       = "agentpool"
     vm_size    = "Standard_D2_v2"
     node_count = var.node_count
-    host_encryption_enabled = true
+    #host_encryption_enabled = true
   }
   linux_profile {
     admin_username = var.username
