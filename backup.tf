@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster_trusted_access_role_binding" "aks_cluster_t
 }
 
 resource "azurerm_storage_account" "example" {
-  name                     = "example123dsedf"
+  name                     = var.storage_account_name
   resource_group_name      = var.resource_group_name
   location                 = "EastUS"
   account_tier             = "Standard"
@@ -73,7 +73,7 @@ resource "azurerm_storage_account" "example" {
 
 resource "azurerm_storage_container" "example" {
   name                  = "backupcontainer"
-  storage_account_name  = "example123dsedf"
+  storage_account_name  = var.storage_account_name
   container_access_type = "private"
   depends_on = [ azurerm_resource_group.rg, azurerm_storage_account.example ]
 }

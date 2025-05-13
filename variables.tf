@@ -22,6 +22,13 @@ variable "backup_vault_name" {
   description = "RG Name"
 }
 
+variable "storage_account_name" {
+  type        = string
+  default     = "aksbackupsa010102"
+  description = "RG Name"
+}
+
+
 variable "node_count" {
   type        = number
   description = "The initial quantity of nodes for the node pool."
