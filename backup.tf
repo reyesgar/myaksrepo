@@ -90,7 +90,7 @@ resource "azurerm_role_assignment" "test_extension_and_storage_account_permissio
 }
 
 resource "azurerm_role_assignment" "test_vault_msi_read_on_cluster" {
-  scope                = azurerm_kubernetes_cluster.example.id
+  scope                = data.azurerm_kubernetes_cluster.k8s.id
   role_definition_name = "Reader"
   principal_id         = azurerm_data_protection_backup_vault.example.identity[0].principal_id
 }
