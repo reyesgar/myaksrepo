@@ -1,13 +1,13 @@
 data "azurerm_client_config" "current" {}
 
 data "azurerm_kubernetes_cluster" "k8s" {
-    name = "cluster-discrete-hyena"
+    name = var.cluster_name
     #location = "EastUS"
-    resource_group_name = "rg-rational-sparrow"
+    resource_group_name = var.resource_group_name
 }
 
 data "azurerm_resource_group" "import"{
-    name = "rg-rational-sparrow"
+    name = var.resource_group_name
 }
 
 /*
@@ -55,14 +55,14 @@ resource "azurerm_kubernetes_cluster" "example" {
 
 resource "azurerm_kubernetes_cluster_trusted_access_role_binding" "aks_cluster_trusted_access" {
   kubernetes_cluster_id = data.azurerm_kubernetes_cluster.k8s.id
-  name                  = "cluster-discrete-hyena"
+  name                  = var.cluster_name
   roles                 = ["Microsoft.DataProtection/backupVaults/backup-operator"]
   source_resource_id    = azurerm_data_protection_backup_vault.example.id
 }
 
 resource "azurerm_storage_account" "example" {
   name                     = "example123dsedf"
-  resource_group_name      = "rg-rational-sparrow"
+  resource_group_name      = var.resource_group_name
   location                 = "EastUS"
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -75,14 +75,14 @@ resource "azurerm_storage_container" "example" {
 }
 
 resource "azurerm_kubernetes_cluster_extension" "example" {
-  name              = "cluster-discrete-hyena"
+  name              = var.cluster_name
   cluster_id        = data.azurerm_kubernetes_cluster.k8s.id
   extension_type    = "Microsoft.DataProtection.Kubernetes"
   release_train     = "stable"
   release_namespace = "dataprotection-microsoft"
   configuration_settings = {
     "configuration.backupStorageLocation.bucket"                = azurerm_storage_container.example.name
-    "configuration.backupStorageLocation.config.resourceGroup"  = "rg-rational-sparrow"
+    "configuration.backupStorageLocation.config.resourceGroup"  = var.resource_group_name
     "configuration.backupStorageLocation.config.storageAccount" = azurerm_storage_account.example.name
     "configuration.backupStorageLocation.config.subscriptionId" = data.azurerm_client_config.current.subscription_id
     "credentials.tenantId"                                      = data.azurerm_client_config.current.tenant_id
@@ -133,7 +133,7 @@ resource "azurerm_role_assignment" "test_cluster_msi_contributor_on_snap_rg" {
 
 resource "azurerm_data_protection_backup_policy_kubernetes_cluster" "example" {
   name                = "example"
-  resource_group_name = "rg-rational-sparrow"
+  resource_group_name = var.resource_group_name
   vault_name          = azurerm_data_protection_backup_vault.example.name
 
   backup_repeating_time_intervals = ["R/2023-05-23T02:30:00+00:00/P1W"]
@@ -164,7 +164,7 @@ resource "azurerm_data_protection_backup_policy_kubernetes_cluster" "example" {
 }
 
 resource "azurerm_data_protection_backup_instance_kubernetes_cluster" "example" {
-  name                         = "cluster-discrete-hyena"
+  name                         = var.cluster_name
   location                     = "EastUS"
   vault_id                     = azurerm_data_protection_backup_vault.example.id
   kubernetes_cluster_id        = data.azurerm_kubernetes_cluster.k8s.id
