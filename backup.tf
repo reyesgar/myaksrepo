@@ -161,7 +161,7 @@ resource "azurerm_data_protection_backup_instance_kubernetes_cluster" "example" 
   name                         = "cluster-discrete-hyena"
   location                     = "EastUS"
   vault_id                     = azurerm_data_protection_backup_vault.example.id
-  kubernetes_cluster_id        = azurerm_kubernetes_cluster.example.id
+  kubernetes_cluster_id        = data.azurerm_kubernetes_cluster.k8s.id
   snapshot_resource_group_name = azurerm_resource_group.snap.name
   backup_policy_id             = azurerm_data_protection_backup_policy_kubernetes_cluster.example.id
 
