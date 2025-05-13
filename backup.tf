@@ -6,6 +6,11 @@ data "azurerm_kubernetes_cluster" "k8s" {
     resource_group_name = "rg-rational-sparrow"
 }
 
+data "azurerm_resource_group" "import"{
+    name = "rg-rational-sparrow"
+}
+
+/*
 resource "azurerm_resource_group" "example" {
   name     = "example"
   location = "EastUS"
@@ -15,11 +20,12 @@ resource "azurerm_resource_group" "snap" {
   name     = "example-snap"
   location = "EastUS"
 }
+*/
 
 resource "azurerm_data_protection_backup_vault" "example" {
   name                = "example"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.import.name
+  location            = "eastus"
   datastore_type      = "VaultStore"
   redundancy          = "LocallyRedundant"
 
@@ -96,19 +102,19 @@ resource "azurerm_role_assignment" "test_vault_msi_read_on_cluster" {
 }
 
 resource "azurerm_role_assignment" "test_vault_msi_read_on_snap_rg" {
-  scope                = azurerm_resource_group.snap.id
+  scope                = data.azurerm_resource_group.import.id
   role_definition_name = "Reader"
   principal_id         = azurerm_data_protection_backup_vault.example.identity[0].principal_id
 }
 
 resource "azurerm_role_assignment" "test_vault_msi_snapshot_contributor_on_snap_rg" {
-  scope                = azurerm_resource_group.snap.id
+  scope                = data.azurerm_resource_group.import.id
   role_definition_name = "Disk Snapshot Contributor"
   principal_id         = azurerm_data_protection_backup_vault.example.identity[0].principal_id
 }
 
 resource "azurerm_role_assignment" "test_vault_data_operator_on_snap_rg" {
-  scope                = azurerm_resource_group.snap.id
+  scope                = data.azurerm_resource_group.import.id
   role_definition_name = "Data Operator for Managed Disks"
   principal_id         = azurerm_data_protection_backup_vault.example.identity[0].principal_id
 }
@@ -120,7 +126,7 @@ resource "azurerm_role_assignment" "test_vault_data_contributor_on_storage" {
 }
 
 resource "azurerm_role_assignment" "test_cluster_msi_contributor_on_snap_rg" {
-  scope                = azurerm_resource_group.snap.id
+  scope                = data.azurerm_resource_group.import.id
   role_definition_name = "Contributor"
   principal_id         = data.azurerm_kubernetes_cluster.k8s.identity[0].principal_id
 }
