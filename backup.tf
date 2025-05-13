@@ -48,7 +48,7 @@ resource "azurerm_kubernetes_cluster" "example" {
 */
 
 resource "azurerm_kubernetes_cluster_trusted_access_role_binding" "aks_cluster_trusted_access" {
-  kubernetes_cluster_id = data.azurerm_kubernetes_cluster.k8s
+  kubernetes_cluster_id = data.azurerm_kubernetes_cluster.k8s.id
   name                  = "cluster-discrete-hyena"
   roles                 = ["Microsoft.DataProtection/backupVaults/backup-operator"]
   source_resource_id    = azurerm_data_protection_backup_vault.example.id
